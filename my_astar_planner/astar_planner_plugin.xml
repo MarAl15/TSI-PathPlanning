@@ -1,0 +1,7 @@
+<library path="lib/libmy_astar_planner">
+  <class name="my_astar_planner/MyAstarPlanner" type="myastar_planner::MyastarPlanner" base_class_type="nav_core::BaseGlobalPlanner">
+    <description>
+      El planner que me invento yo.
+    </description>
+  </class>
+</library>

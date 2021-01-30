@@ -1,0 +1,32 @@
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+<!-- Lanzamos move_base para navegacion, con el planificador global por defecto -->
+
+  <include file="$(find my_astar_planner)/move_base_config/move_base.xml"/>
+
+<!-- Lanzamos map_server con un mapa, a una resolución de 10cm/celda -->
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find my_astar_planner)/stage_config/maps/willow-full.pgm 0.1" respawn="false" />
+
+<!-- Lanzamos stage con el mundo correspondiente al mapa -->
+
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find my_astar_planner)/stage_config/worlds/willow-pr2.world" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+
+<!-- Lanzamos el nodo amcl -->
+
+  <include file="$(find my_astar_planner)/move_base_config/amcl_node.xml">
+     <arg name="initial_pose_x"  value="47.120"/>
+     <arg name="initial_pose_y"  value="21.670"/>
+     <arg name="initial_pose_a"  value="0.0"/>
+
+  </include>
+
+<!-- Lanzamos rviz --> 
+
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_astar_planner)/rviz_config/single_robot_OpenClosed.rviz" />
+
+
+</launch>
